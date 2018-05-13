@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Minecraft scene</title>
+	<script type="text/javascript" src="src/three.js"></script>
+	<script type="text/javascript" src="src/OrbitControls.js"></script>
+	<script type="text/javascript" src="src/FogExp2.js"></script>
+	<script type="text/javascript" src="src/dat.gui.min.js"></script>
+
+
+	<style type="text/css">
+		body{ margin: 0; top: 0; left: 0; right: 0; bottom: 0;}
+		canvas { width: 100%; height: 100%; }
+	</style>
+</head>
+<body>
+
+	<script type="text/javascript">
+		
+		var scene = new THREE.Scene();
+		scene.fog = new THREE.FogExp2( 0xffffff, 0.015 );
+		var camera = new THREE.PerspectiveCamera(60, window.innerWidth/ window.innerHeight, 0.1, 1000);
+
+		var renderer = new THREE.WebGLRenderer();
+		renderer.shadowMap.enabled = true;
+		renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild(renderer.domElement);
+
+		window.addEventListener( 'resize', function(){
+			var width = window.innerWidth;
+			var height = window.innerHeight;
+			renderer.setSize( width, height);
+			camera.aspect = width / height;
+			camera.updateProjectionMatrix();
+		});
+
+
+		// Controls 
+
+
+
+
+		// Terraria generation
+
+		function createCube(positionX, positionY, positionZ){
+			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+
+				var cubeMaterials = [
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/side.png' ), side: THREE.DoubleSide } ), // right
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/side.png' ), side: THREE.DoubleSide } ),  // left
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/top.png' ), side: THREE.DoubleSide } ),  // top
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/bottom.png' ), side: THREE.DoubleSide } ),  // bottom
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/side.png' ), side: THREE.DoubleSide } ),  // front 
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/side.png' ), side: THREE.DoubleSide } ),  // back
+				];
+
+				var material = new THREE.MeshFaceMaterial(cubeMaterials);
+				var cube = new THREE.Mesh( geometry, material );
+				cube.receiveShadow = true;
+				cube.castShadow = true;
+				scene.add( cube );
+
+				cube.position.x += positionX;
+				cube.position.z += positionZ;
+				cube.position.y = positionY;
+		}
+
+		function createCraftBlock(positionX, positionY, positionZ){
+			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+
+				var cubeMaterials = [
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/craft_side1.png' ), side: THREE.DoubleSide } ), // right
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/craft_side2.png' ), side: THREE.DoubleSide } ),  // left
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/craft_top.png' ), side: THREE.DoubleSide } ),  // top
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/craft_bottom.png' ), side: THREE.DoubleSide } ),  // bottom
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/craft_side1.png' ), side: THREE.DoubleSide } ),  // front 
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/craft_side2.png' ), side: THREE.DoubleSide } ),  // back
+				];
+
+				var material = new THREE.MeshFaceMaterial(cubeMaterials);
+				var cube = new THREE.Mesh( geometry, material );
+				cube.receiveShadow = true;
+				cube.castShadow = true;
+				scene.add( cube );
+
+				cube.position.x += positionX;
+				cube.position.z += positionZ;
+				cube.position.y = positionY;
+		}
+
+
+		function createWoodBlock(positionX, positionY, positionZ){
+			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+
+				var cubeMaterials = [
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/wood_side.png' ), side: THREE.DoubleSide } ), // right
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/wood_side.png' ), side: THREE.DoubleSide } ),  // left
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/wood_top.png' ), side: THREE.DoubleSide } ),  // top
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/wood_bottom.png' ), side: THREE.DoubleSide } ),  // bottom
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/wood_side.png' ), side: THREE.DoubleSide } ),  // front 
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/wood_side.png' ), side: THREE.DoubleSide } ),  // back
+				];
+
+				var material = new THREE.MeshFaceMaterial(cubeMaterials);
+				var cube = new THREE.Mesh( geometry, material );
+				cube.receiveShadow = true;
+				cube.castShadow = true;
+				scene.add( cube );
+
+				cube.position.x += positionX;
+				cube.position.z += positionZ;
+				cube.position.y = positionY;
+		}
+
+		function createLeafesBlock(positionX, positionY, positionZ){
+			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+
+				var cubeMaterials = [
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/tree.png' ), side: THREE.DoubleSide } ), // right
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/tree.png' ), side: THREE.DoubleSide } ),  // left
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/tree.png' ), side: THREE.DoubleSide } ),  // top
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/tree.png' ), side: THREE.DoubleSide } ),  // bottom
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/tree.png' ), side: THREE.DoubleSide } ),  // front 
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/tree.png' ), side: THREE.DoubleSide } ),  // back
+				];
+
+				var material = new THREE.MeshFaceMaterial(cubeMaterials);
+				var cube = new THREE.Mesh( geometry, material );
+				cube.castShadow = true;
+				cube.receivehadow = true;
+				scene.add( cube );
+
+				cube.position.x += positionX;
+				cube.position.z += positionZ;
+				cube.position.y = positionY;
+		}
+
+		function createCloud(positionX, positionY, positionZ){
+			var geometry = new THREE.BoxBufferGeometry( 1, 1, 1 );
+			var material = new THREE.MeshLambertMaterial( {color: 0x00ff00} );
+			var cube = new THREE.Mesh( geometry, material );
+			cube.castShadow = true;
+			cube.receivehadow = true;
+			scene.add( cube );
+			cube.position.x += positionX;
+			cube.position.z += positionZ;
+			cube.position.y = positionY;
+
+		}
+
+		for(var i = -9; i<9; i++){
+			for(var j =-9; j<9; j++){
+
+				// The folowing attributes equals to cube position x,y,z
+				createCube(i,-2,j); 
+			
+			}
+
+		}
+
+		/* 
+		
+		0 0 0 0 0 0 0 0 0 0
+		0 0 0 0 0 0 0 0 0 0
+		0 0 0 0 0 0 0 0 0 0
+		0 0 0 0 0 0 0 0 0 0
+		0 0 0 0 0 0 0 0 0 0
+		0 0 0 0 0 0 0 0 0 0
+		0 0 0 0 0 0 0 0 0 0
+		0 0 0 0 0 0 0 0 0 0
+		0 0 0 0 0 0 0 0 0 0
+		0 0 0 0 0 0 0 0 0 0
+
+
+		*/
+
+		createCube(-10,0,-10);createCube(-9,0,-10);
+		createCube(-10,0,-9);createCube(-8,-1,-10);
+		createCube(-9,0,-9);
+		createCube(-8,-1,-8);createCube(-8,-1,-9);
+		createCube(-9,-1,-8);createCube(-10,1,-10);
+		createCube(-7,-1,-10);
+
+		for(var o = -8; o<10; o++){
+			createCube(-10,-1,o)
+			createCube(o,-1,-10)
+		}
+
+		
+		createCube(9,0,9);
+		createCube(9,-1,8);createCube(8,-1,9);
+		createCube(7,-1,9);createCube(9,-1,7);
+
+		for(var o = 6; o>-10; o--){
+			createCube(o,-1,9);
+			createCube(9,-1,o);
+		}
+
+		// Create Tree 
+
+
+		for(var t = -1; t<3; t++){
+			createWoodBlock(7,t,-8);
+		}
+
+		for(var l = -9; l<-6; l++){
+			for(var p = -9; p<-6; p++){
+				createLeafesBlock(-l-1,3,p);	
+			}
+		}
+
+		for(var l = -9; l<-4; l++){
+			for(var p = -9; p<-4; p++){
+				createLeafesBlock(-l,2,p-1);	
+			}
+		}
+
+		createLeafesBlock(7,4,-8);
+
+
+		function createTree(posX, posZ, height){
+			for(var i = -1; i<height-1; i++){
+				createWoodBlock(posX, i ,posZ);
+			}
+
+
+			createLeafesBlock(posX+2,height-1,posZ+2);
+			createLeafesBlock(posX+2,height-1,posZ+1);
+			createLeafesBlock(posX+2,height-1,posZ);
+			createLeafesBlock(posX+2,height-1,posZ-1);
+			createLeafesBlock(posX+2,height-1,posZ-2);
+
+			createLeafesBlock(posX+1,height-1,posZ+2);
+			createLeafesBlock(posX+1,height-1,posZ+1);
+			createLeafesBlock(posX+1,height-1,posZ);
+			createLeafesBlock(posX+1,height-1,posZ-1);
+			createLeafesBlock(posX+1,height-1,posZ-2);
+
+			createLeafesBlock(posX,height-1,posZ+2);
+			createLeafesBlock(posX,height-1,posZ+1);
+			createLeafesBlock(posX,height-1,posZ);
+			createLeafesBlock(posX,height-1,posZ-1);
+			createLeafesBlock(posX,height-1,posZ-2);
+
+			createLeafesBlock(posX-1,height-1,posZ+2);
+			createLeafesBlock(posX-1,height-1,posZ+1);
+			createLeafesBlock(posX-1,height-1,posZ);
+			createLeafesBlock(posX-1,height-1,posZ-1);
+			createLeafesBlock(posX-1,height-1,posZ-2);
+
+			createLeafesBlock(posX-2,height-1,posZ+2);
+			createLeafesBlock(posX-2,height-1,posZ+1);
+			createLeafesBlock(posX-2,height-1,posZ);
+			createLeafesBlock(posX-2,height-1,posZ-1);
+			createLeafesBlock(posX-2,height-1,posZ-2);
+
+
+
+
+
+
+			// ending 
+			createLeafesBlock(posX+1,height,posZ+1);
+			createLeafesBlock(posX+1,height,posZ);
+			createLeafesBlock(posX+1,height,posZ-1);
+			createLeafesBlock(posX,height,posZ+1);
+			createLeafesBlock(posX,height,posZ);
+			createLeafesBlock(posX,height,posZ-1);
+			createLeafesBlock(posX-1,height,posZ+1);
+			createLeafesBlock(posX-1,height,posZ);
+			createLeafesBlock(posX-1,height,posZ-1);
+			createLeafesBlock(posX,height+1,posZ);
+		}
+
+
+		createTree(-7,7,3);
+
+		createTree(-4,0,4);
+
+		createTree(7,6,4);
+
+		createCraftBlock(0,-1,0);
+
+
+
+		// Sky box
+
+
+		var geometry = new THREE.BoxGeometry( 100, 100, 100 ); // default 20
+
+				var cubeMaterials = [
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/sk_right.png' ), side: THREE.DoubleSide } ), // right
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/sky_back.png' ), side: THREE.DoubleSide } ),  // left
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/sky_top.png' ), side: THREE.DoubleSide } ),  // top
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/sky_bottom.png' ), side: THREE.DoubleSide } ),  // bottom
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/sky_left.png' ), side: THREE.DoubleSide } ),  // front 
+					new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load( 'img/sky_front.png' ), side: THREE.DoubleSide } ),  // back
+				];
+
+				var material = new THREE.MeshFaceMaterial(cubeMaterials);
+				var cube = new THREE.Mesh( geometry, material );
+				scene.add( cube );
+
+				cube.position.y = -2;
+				cube.position.x = -1;
+				cube.position.z = -1;
+
+
+
+
+
+ 
+
+		camera.position.z = 8;
+		camera.position.y = 8;
+
+
+
+
+
+		// Shadow
+
+		//Create a SpotLight and turn on shadows for the light
+		var light = new THREE.SpotLight( 0xffffff, 0.7 );
+		light.castShadow = true; 
+		light.position.y = 20;
+		light.position.x = 10;
+		light.position.z = 10;            // default false
+		scene.add( light );
+
+		//Set up shadow properties for the light
+		light.shadow.mapSize.width = 2012;  // default
+		light.shadow.mapSize.height = 2012; // default
+		light.shadow.camera.near = 2;       // default
+		light.shadow.camera.far = 100;
+
+
+
+
+		var ambientLight = new THREE.AmbientLight( 0x404040, 0.7 ); // soft white light
+		scene.add( ambientLight );
+
+		// GUI controls
+
+		var guiControls = new function(){
+			this.intensity = 0.7;
+			this.x = 10;
+			this.z = 10;
+		}
+
+		var datGUI = new dat.GUI();
+		datGUI.add(guiControls, 'intensity', 0.2, 1);
+		datGUI.add(guiControls, 'x', -40, 40);
+		datGUI.add(guiControls, 'z', -40, 40);
+
+
+
+		var controls = new THREE.OrbitControls( camera );
+
+		// Game logic
+
+		var update = function(){
+			ambientLight.intensity = guiControls.intensity;
+			light.intensity = guiControls.intensity;
+			light.position.x = guiControls.x;
+			light.position.z = guiControls.z; 
+		};
+
+
+		// Draw scene 
+
+
+		var render = function(){
+			controls.update();
+			renderer.render( scene, camera );
+		};
+
+		var GameLoop = function (){
+			requestAnimationFrame( GameLoop );
+
+			update();
+			render();
+		};
+
+		GameLoop();
+
+	</script>
+
+</body>
+</html>
